@@ -1,5 +1,9 @@
-// theme.js
-const theme = {
+import _ from 'lodash'
+import { imageType, starsUrl, pinkSkullUrl, bothType, leavesUrl, colorType } from '../../constants/themeConstants.js'
+
+
+
+export const themeDefaults = {
   colors: {
     primary: '#6200ea',
     secondary: '#03dac6',
@@ -18,5 +22,41 @@ const theme = {
     lg: '1200px',
   },
 };
-  
-  export default theme;
+
+export const starsTheme = {
+  ...themeDefaults,
+  type: imageType,
+  url: starsUrl,
+  label: 'Space',
+}
+
+export const skullTheme = {
+  ...themeDefaults,
+  type: imageType,
+  url: pinkSkullUrl,
+  label: 'Skulls',
+}
+
+export const cuteTheme = {
+  ...themeDefaults,
+  type: bothType,
+  url: leavesUrl,
+  color: '#FADADD',
+  label: 'Cute',
+}
+
+export const coolTheme = {
+  ...themeDefaults,
+  type: colorType,
+  color: 'black',
+  label: 'Cool'
+}
+
+export const pageThemes = {
+  starsTheme: starsTheme,
+  skullTheme: skullTheme,
+  cuteTheme: cuteTheme,
+  coolTheme: coolTheme,
+}
+
+export const pageThemeNames = _.keys(pageThemes)

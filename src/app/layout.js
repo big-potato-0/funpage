@@ -19,11 +19,7 @@ export default function RootLayout({ children }) {
           `}
         </style>
       </head>
-      <ThemeProvider theme={theme}>
-        <body>
-          <BackgroundContainer />
-        </body>
-      </ThemeProvider>
+      <BackgroundContainer />
     </html>
   )
 }
