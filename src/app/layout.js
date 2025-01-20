@@ -4,7 +4,7 @@ import { ThemeProvider } from '@emotion/react'
 import theme from './styles/theme'
 import _ from 'lodash'
 
-import BackgroundContainer from '../components/BackgroundContainer'
+import ThemeHandlerContainer from '../components/themeStyledComponents/ThemeHandlerContainer'
 
 export default function RootLayout({ children }) {
   return (
@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           `}
         </style>
       </head>
-      <BackgroundContainer />
+      <ThemeHandlerContainer />
     </html>
   )
 }
