@@ -1,9 +1,23 @@
 import styled from '@emotion/styled'
-import { ThemeProvider, useTheme } from '@emotion/react'
 import { useState } from 'react'
 import _ from 'lodash'
+import Window from './Window.js'
 import { imageType, starsUrl, pinkSkullUrl, bothType, leavesUrl, colorType } from '../../constants/themeConstants.js'
-import { starsTheme, cuteTheme, skullTheme, coolTheme, pageThemes, pageThemeNames } from '../../app/styles/theme.js'
+import { starsTheme, cuteTheme, skullTheme, coolTheme, pageThemes, pageThemeNames, colors } from '../../app/styles/theme.js'
+
+const xlContainerWidth = 800
+const lgContainerWidth = 600
+const mdContainerWidth = 500
+const smContainerWidth = 400
+const xsContainerWidth = 300
+
+const windowWidths = {
+  xlContainerWidth: 800,
+  lgContainerWidth: 600,
+  mdContainerWidth: 500,
+  smContainerWidth: 400,
+  xsContainerWidth: 300,
+}
 
 const BackgroundDiv = styled.div`
   background-size: auto;
@@ -30,21 +44,8 @@ const BackgroundDiv = styled.div`
       }
   }}
 `
-
-const BackgroundChooseButton = styled.button`
-  background-color: black;
-  padding: ${props => props.theme.spacing(1)};
-  margin-right: ${props => props.theme.spacing(1)};
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
-  &:hover {
-    color: pink;
-  }
-`
-
 const StyledHeader = styled.header`
-  background-color: white;
+  background-color: ${props => props.theme.colors.headerColor};
   padding: ${props => props.theme.spacing(1)};
 `
 const BodyContainer = styled.div`
@@ -52,92 +53,29 @@ const BodyContainer = styled.div`
   justify-content: center;
   width: 100%;
 `
-const WindowsDiv = styled.div`
-  min-height: 600px;
-  background-color: white;
-  margin-top: 100px;
-  margin-bottom: ${props => props.theme.spacing(10)};
-  
-  width: 800px;
 
-  @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    width: 600px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    width: 500px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: 400px;
-  }
-  @media (max-width: ${props => props.theme.breakpoints.xs}) {
-    width: 300px;
-  }
-`
 const Footer = styled.div`
   width: 100%;
-  background-color: white;
+  background-color: ${props => props.theme.colors.headerColor};
   color: black;
-  padding: 10px 0;
+  padding: 10px;
   position: fixed;
   bottom: 0;
   left: 0;
   min-height: ${props => props.theme.spacing(2)};
   z-index: 10;
 `
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  background: #c0c0c0;
-  border: 2px solid #000;
-  box-shadow: 2px 2px 0 #808080, 4px 4px 0 #fff inset;
-  padding: 10px;
-  font-family: 'MS Sans Serif', Arial, sans-serif;
-  font-size: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
-
-const TitleBar = styled.div`
-  background: ${[props => props.theme.barColor]}
-  color: white;
-  padding: 4px 10px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #808080;
-  height: 20px;
-`
-
-const Content = styled.div`
-  background: #fff;
-  border: 2px solid #fff;
-  border-top-color: #808080;
-  border-left-color: #808080;
-  padding: 10px;
-  flex-grow: 1; /* Allows the content area to grow and fill available space */
-  overflow: auto; /* Adds scroll if content exceeds available height */
-`
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 4px;
-  margin-left: auto; /* Align buttons to the right */
-`
 
 const Button = styled.button`
-  background: #c0c0c0;
-  border: 2px outset #fff;
+  background: ${colors.grey};
+  border: 2px outset ${colors.white};
   padding: 2px 6px;
   font-size: 12px;
   cursor: pointer;
   &:active {
-    border: 2px inset #fff;
+    border: 2px inset ${colors.white};
   }
 `
-
 
 const Sidebar = styled.div`
   position: fixed;
@@ -145,56 +83,54 @@ const Sidebar = styled.div`
   left: 0;
   width: 200px;
   height: 50%; /* Sidebar height is now 50% */
-  background: #c0c0c0;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  background: ${colors.grey};
+  box-shadow: 2px 2px 5px ${colors.blackTransparent80};
   padding: 20px;
   transition: transform 0.3s ease-in-out;
-  transform: translateY(${props => (props.isOpen ? '0' : '100%')}); /* Slides up from the bottom */
-  z-index: 5; /* Sidebar stays below the footer */
-`;
+  transform: translateY(${props => (props.isOpen ? '0' : '100%')});
+  z-index: 5;
+  margin-left: 10px;
+`
 
 const SidebarContent = styled.div`
-  color: black;
+  color: ${colors.black};
   font-size: 14px;
-`;
+`
 
+export default function StyledContainer() {
+    const [pageTheme, setPageTheme] = useState(cuteTheme)
 
-export default function StyledContainer({children,  handleThemeClick}) {
-  const theme = useTheme()
+    const handleThemeClick = pageThemeChoice => {
+      setPageTheme(pageThemeChoice)
+    }
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isMinimized, setIsMinimized] = useState(false)
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setIsSidebarOpen(!isSidebarOpen)
   }
+  const minimizeWindow = () => {
+    setIsMinimized(!isMinimized)
+  } 
 
 
   return (
-    <BackgroundDiv theme={theme}>
-      <StyledHeader>
+    <BackgroundDiv theme={pageTheme}>
+      <StyledHeader theme={pageTheme}>
         <span>Change Theme: </span>
         {_.keys(pageThemes).map(pageThemeName => {
           return (
-            <Button theme={theme} key={pageThemeName} onClick={() => handleThemeClick(pageThemes[pageThemeName])}>
+            <Button theme={pageTheme} key={pageThemeName} onClick={() => handleThemeClick(pageThemes[pageThemeName])}>
               {pageThemes[pageThemeName].label}
             </Button>
           )
         })}
       </StyledHeader>
-      <BodyContainer theme={theme}>
-        <WindowsDiv theme={theme}>
-          <Container>
-            <TitleBar theme={theme}>
-              My Window
-              <ButtonGroup>
-                <Button>_</Button>
-                <Button>🗖</Button>
-                <Button>X</Button>
-              </ButtonGroup>
-            </TitleBar>
-            <Content>
-              {children}
-            </Content>
-          </Container>
-        </WindowsDiv>
+      <BodyContainer theme={pageTheme}>
+        {!isMinimized && (
+          <Window theme={pageTheme} isMinimized={isMinimized} minimizeWindow={minimizeWindow} windowWidths={windowWidths}> 
+            hello world
+          </Window>
+        )}
         <Sidebar isOpen={isSidebarOpen}>
         <SidebarContent>
           <p>Menu Item 1</p>
@@ -203,7 +139,7 @@ export default function StyledContainer({children,  handleThemeClick}) {
           <p>Menu Item 4</p>
         </SidebarContent>
       </Sidebar>
-        <Footer>
+        <Footer theme={pageTheme}>
         <Button onClick={toggleSidebar}>
           {isSidebarOpen ? 'Close Menu' : 'Open Menu'}
         </Button>

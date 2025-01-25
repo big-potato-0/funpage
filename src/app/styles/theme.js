@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { imageType, starsUrl, pinkSkullUrl, bothType, leavesUrl, colorType } from '../../constants/themeConstants.js'
 
-const colors = {
+export const colors = {
   cutePinkDark: ' #f178a1',
   cutePinkLight: '#FFC0CB',
   spacePurpleDark: '#150c25',
@@ -9,14 +9,25 @@ const colors = {
   skullPinkDark: '#FC0FC0',
   coolRed: '#D0001B',
   coolOrange: '#FD5800',
+  black: '#000000',
+  white: '#FFFFFF',
+  grey: '#c0c0c0',
+  lightGrey: '#f0f0f0',
+  darkGrey: '#808080',
+  pink: '#FFC0CB',
+  transparent: 'transparent',
+  blackTransparent80: '#00000080',
 }
 
 export const themeDefaults = {
   colors: {
     primary: '#6200ea',
     secondary: '#03dac6',
-    background: '#f0f0f0',
+    background: colors.white,
     text: '#333',
+    headerColor: colors.white,
+    backgroundSecondary: colors.grey,
+
   },
   typography: {
     fontFamily: '"Roboto", sans-serif',
@@ -37,6 +48,7 @@ export const starsTheme = {
   type: imageType,
   url: starsUrl,
   label: 'Space',
+  color: colors.white,
   barColor: `linear-gradient(to right, ${colors.spacePurpleDark} , ${colors.spacePurpleLight})`,
 }
 
