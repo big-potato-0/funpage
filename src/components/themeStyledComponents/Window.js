@@ -33,7 +33,8 @@ const Container = styled.div`
   height: 100%;
   background: ${props => props.theme.colors.backgroundSecondary};
   border: 2px solid ${colors.black};
-  box-shadow: 2px 2px 0 #fff, 4px 4px 0 #fff inset;
+  box-shadow: 2px 2px 0 ${props => props.theme.boxShadow};
+  //, 4px 4px 0 ${colors.white} inset
   padding: 10px;
   font-family: 'MS Sans Serif', Arial, sans-serif;
   font-size: 14px;

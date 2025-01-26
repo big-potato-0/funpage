@@ -27,6 +27,7 @@ export const themeDefaults = {
     text: '#333',
     headerColor: colors.white,
     backgroundSecondary: colors.grey,
+    boxShadow: colors.blackTransparent80,
 
   },
   typography: {
@@ -50,6 +51,7 @@ export const starsTheme = {
   label: 'Space',
   color: colors.white,
   barColor: `linear-gradient(to right, ${colors.spacePurpleDark} , ${colors.spacePurpleLight})`,
+  boxShadow: colors.white,
 }
 
 export const skullTheme = {
@@ -78,6 +80,7 @@ export const coolTheme = {
   color: 'black',
   label: 'Cool',
   barColor: `linear-gradient(to right, ${colors.coolRed} , ${colors.coolOrange})`,
+  boxShadow: colors.white,
 }
 
 export const pageThemes = {

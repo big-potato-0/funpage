@@ -4,12 +4,8 @@ import _ from 'lodash'
 import Window from './Window.js'
 import { imageType, starsUrl, pinkSkullUrl, bothType, leavesUrl, colorType } from '../../constants/themeConstants.js'
 import { starsTheme, cuteTheme, skullTheme, coolTheme, pageThemes, pageThemeNames, colors } from '../../app/styles/theme.js'
+import { css } from '@emotion/react'
 
-const xlContainerWidth = 800
-const lgContainerWidth = 600
-const mdContainerWidth = 500
-const smContainerWidth = 400
-const xsContainerWidth = 300
 
 const windowWidths = {
   xlContainerWidth: 800,
@@ -58,12 +54,13 @@ const Footer = styled.div`
   width: 100%;
   background-color: ${props => props.theme.colors.headerColor};
   color: black;
-  padding: 10px;
+  // padding: 10px;
   position: fixed;
   bottom: 0;
   left: 0;
-  min-height: ${props => props.theme.spacing(2)};
+  min-height: ${props => props.theme.spacing(6)};
   z-index: 10;
+  display: flex;
 `
 
 const Button = styled.button`
@@ -76,13 +73,28 @@ const Button = styled.button`
     border: 2px inset ${colors.white};
   }
 `
+const menuWidth = '200px'
+const MenuButtonContainer = styled.div`
+  //background: ${colors.lightGrey};
+  width: ${menuWidth};
+  padding-left: ${props => props.theme.spacing(1)};
+  display: flex;
+  align-items: center;
+  padding-right: ${props => props.theme.spacing(2)};
+`
 
-const Sidebar = styled.div`
+const MinimizedWindowsContainer = styled.div`
+  padding-left: ${props => props.theme.spacing(1)};
+  display: flex;
+  align-items: center;
+`
+
+const Menu = styled.div`
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 200px;
-  height: 50%; /* Sidebar height is now 50% */
+  width: ${menuWidth};
+  height: 50%; 
   background: ${colors.grey};
   box-shadow: 2px 2px 5px ${colors.blackTransparent80};
   padding: 20px;
@@ -90,27 +102,59 @@ const Sidebar = styled.div`
   transform: translateY(${props => (props.isOpen ? '0' : '100%')});
   z-index: 5;
   margin-left: 10px;
+  overflow: auto;
 `
 
-const SidebarContent = styled.div`
+const MenuContent = styled.div`
   color: ${colors.black};
   font-size: 14px;
 `
 
-export default function StyledContainer() {
-    const [pageTheme, setPageTheme] = useState(cuteTheme)
+const MinimizableButton = styled.button`
+  background-color: ${colors.grey};
+  border: none;
+  font-size: 14px;
+  color: black;
+  padding: 4px 8px;
+  box-shadow: inset -1px -1px 1px ${colors.darkGrey}, inset 1px 1px 1px ${colors.white};
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.1s ease-in-out;
 
-    const handleThemeClick = pageThemeChoice => {
-      setPageTheme(pageThemeChoice)
-    }
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  ${(props) =>
+    props.isMinimized &&
+    css`
+      border: 2px solid ${colors.darkGrey};
+      border-left-color: ${colors.darkGrey};
+      border-top-color: ${colors.darkGrey};
+      border-right-color: ${colors.darkGrey};
+      border-bottom-color: ${colors.darkGrey};
+      box-shadow: inset -1px -1px 1px ${colors.white}, inset 1px 1px 1px ${colors.darkGrey};
+    `}
+
+  &:hover {
+    background-color: #d4d0c8;
+  }
+`;
+
+export default function StyledContainer() {
+  const [pageTheme, setPageTheme] = useState(cuteTheme)
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen)
+  
+  const handleThemeClick = pageThemeChoice => {
+    setPageTheme(pageThemeChoice)
+  }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
   }
   const minimizeWindow = () => {
     setIsMinimized(!isMinimized)
   } 
+  const unMinimizeWindow = () => {
+    setIsMinimized(false)
+  }
 
 
   return (
@@ -131,18 +175,25 @@ export default function StyledContainer() {
             hello world
           </Window>
         )}
-        <Sidebar isOpen={isSidebarOpen}>
-        <SidebarContent>
+        <Menu isOpen={isMenuOpen} theme={pageTheme}>
+        <MenuContent>
           <p>Menu Item 1</p>
           <p>Menu Item 2</p>
           <p>Menu Item 3</p>
           <p>Menu Item 4</p>
-        </SidebarContent>
-      </Sidebar>
+        </MenuContent>
+      </Menu>
         <Footer theme={pageTheme}>
-        <Button onClick={toggleSidebar}>
-          {isSidebarOpen ? 'Close Menu' : 'Open Menu'}
-        </Button>
+          <MenuButtonContainer theme={pageTheme}>
+            <MinimizableButton onClick={toggleMenu} theme={pageTheme} isMinimized={isMenuOpen}>
+              {isMenuOpen ? 'Close Menu' : 'Open Menu'}
+            </MinimizableButton>
+          </MenuButtonContainer>
+          <MinimizedWindowsContainer theme={pageTheme}>
+            <MinimizableButton onClick={minimizeWindow} theme={pageTheme} isMinimized={!isMinimized}>
+              test
+            </MinimizableButton>
+          </MinimizedWindowsContainer>
         </Footer>
       </BodyContainer>
     </BackgroundDiv>
